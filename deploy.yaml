@@ -1,0 +1,69 @@
+# Copyright (c) 2020 NetApp
+# All rights reserved
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: hello
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: hello-account
+  namespace: hello
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: hello-role
+rules:
+  - apiGroups: [""]
+    resources: [persistentvolumes]
+    verbs: [get, list, watch, create, update, delete]
+  - apiGroups: [""]
+    resources: [persistentvolumeclaims]
+    verbs: [get, list, watch, create, update, delete]
+  - apiGroups: [""]
+    resources: [pods]
+    verbs: [get, list, watch, create, delete]
+
+  - apiGroups: [hello.k8s.io]
+    resources: [hello]
+    verbs: [get, list, watch, update]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: hello-binding
+subjects:
+  - kind: ServiceAccount
+    name: hello-account
+    namespace: hello
+roleRef:
+  kind: ClusterRole
+  name: hello-role
+  apiGroup: rbac.authorization.k8s.io
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: hello-populator
+  namespace: hello
+spec:
+  selector:
+    matchLabels:
+      app: hello
+  template:
+    metadata:
+      labels:
+        app: hello
+    spec:
+      serviceAccount: hello-account
+      containers:
+        - name: hello
+          image: quay.io/k8scsi/hello-populator:canary
+          imagePullPolicy: IfNotPresent
+          args:
+            - --mode=controller
+            - --image-name=quay.io/k8scsi/hello-populator:canary
