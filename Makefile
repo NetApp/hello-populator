@@ -15,10 +15,10 @@ all: build
 
 compile:
 	mkdir -p bin
-	go build -ldflags '-s -w -X main.version=$(REV)' -o hello-populator *.go
+	go build -ldflags '-s -w -X main.version=$(REV)' -o bin/hello-populator *.go
 
 build: compile
-	./build.sh $(TAG)
+	deploy/build.sh $(TAG)
 
 clean:
 	go clean -i -x ./...
