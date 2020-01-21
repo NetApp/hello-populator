@@ -6,13 +6,13 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: (devel)
   creationTimestamp: null
-  name: helloes.hello.k8s.io
+  name: hellos.hello.k8s.io
 spec:
   group: hello.k8s.io
   names:
     kind: Hello
     listKind: HelloList
-    plural: helloes
+    plural: hellos
     singular: hello
   preserveUnknownFields: false
   scope: Namespaced

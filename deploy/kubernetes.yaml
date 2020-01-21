@@ -29,7 +29,7 @@ rules:
     verbs: [get, list, watch, create, delete]
 
   - apiGroups: [hello.k8s.io]
-    resources: [hello]
+    resources: [hellos]
     verbs: [get, list, watch, update]
 ---
 kind: ClusterRoleBinding

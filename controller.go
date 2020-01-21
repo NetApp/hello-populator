@@ -98,13 +98,17 @@ func main() {
 
 func populate(fileName, fileContents string) {
 	if "" == fileName || "" == fileContents {
-		panic("Missing requred arg")
+		panic("Missing required arg")
 	}
 	f, err := os.Create(fileName)
 	if nil != err {
 		panic(err)
 	}
 	defer f.Close()
+
+	if !strings.HasSuffix(fileContents, "\n") {
+		fileContents += "\n"
+	}
 
 	_, err = f.WriteString(fileContents)
 	if nil != err {
@@ -697,7 +701,7 @@ func makePopulatePod(labelValue string, targetPvc *corev1.PersistentVolumeClaim,
 					Image: imageName,
 					Args: []string{
 						"--mode=populate",
-						"--file-name=" + hello.Spec.FileName,
+						"--file-name=/mnt/" + hello.Spec.FileName,
 						"--file-contents=" + hello.Spec.FileContents,
 					},
 					VolumeMounts: []corev1.VolumeMount{
