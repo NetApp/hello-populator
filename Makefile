@@ -17,8 +17,11 @@ compile:
 	mkdir -p bin
 	go build -ldflags '-s -w -X main.version=$(REV)' -o bin/hello-populator *.go
 
-build: compile
-	deploy/build.sh $(TAG)
+deploy/ca-certificates.crt:
+	cp /etc/ssl/certs/ca-certificates.crt deploy/
+
+build: compile deploy/ca-certificates.crt
+	docker build -f deploy/Dockerfile -t $(TAG) .
 
 clean:
 	go clean -i -x ./...

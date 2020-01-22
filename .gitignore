@@ -1,2 +1,3 @@
 .idea
-hello-populator
+bin
+deploy/ca-certificates.crt
