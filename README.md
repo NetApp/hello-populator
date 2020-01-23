@@ -7,7 +7,11 @@ simple.
 
 ## How To
 
-First you need to install golang 1.13 and docker, and clone this repo.
+First you need to have a Kubernetes patch that disables validation of data sources:
+
+https://github.com/kubernetes/kubernetes/pull/87480
+
+Then you need to install golang 1.13 and docker, and clone this repo.
 
 Build the image from code:
 
