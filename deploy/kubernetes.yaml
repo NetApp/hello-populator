@@ -67,3 +67,11 @@ spec:
           args:
             - --mode=controller
             - --image-name=quay.io/k8scsi/hello-populator:canary
+---
+kind: VolumePopulator
+apiVersion: populator.storage.k8s.io/v1alpha1
+metadata:
+  name: hello-populator
+sourceKind:
+  group: hello.k8s.io
+  kind: Hello
